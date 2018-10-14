@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using NetCoreTestApp.Models;
 
 namespace NetCoreTestApp.Controllers
@@ -12,17 +13,20 @@ namespace NetCoreTestApp.Controllers
     public class ProductsController : Controller
     {
         private readonly NorthwindContext _context;
+        private readonly int _topProductsCount;
 
-        public ProductsController(NorthwindContext context)
+        public ProductsController(NorthwindContext context, IConfiguration configuration)
         {
             _context = context;
+            _topProductsCount = configuration.GetSection("QueryParams").GetValue<int>("TopProductsCount");
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var northwindContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
-            return View(await northwindContext.ToListAsync());
+            var products = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
+            var selectedProducts = products.Take(_topProductsCount > 0 ? _topProductsCount : products.Count());
+            return View(await selectedProducts.ToListAsync());
         }
 
         // GET: Products/Details/5
