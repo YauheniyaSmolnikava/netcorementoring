@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace NetCoreTestApp.Models
 {
@@ -13,10 +14,13 @@ namespace NetCoreTestApp.Models
 
         public int ProductId { get; set; }
 
+        [Required]
+        [StringLength(100)]
         [DisplayName("ProductName")]
         public string ProductName { get; set; }
         public int? SupplierId { get; set; }
         public int? CategoryId { get; set; }
+
         [DisplayName("Quantity Per Unit")]
         public string QuantityPerUnit { get; set; }
 
@@ -26,9 +30,10 @@ namespace NetCoreTestApp.Models
         [DisplayName("Units in Stock")]
         public short? UnitsInStock { get; set; }
 
-        [DisplayName("Units On Order")]
+        [DisplayName("Units on Order")]
         public short? UnitsOnOrder { get; set; }
 
+        [Range(0, 35)]
         [DisplayName("Reorder Level")]
         public short? ReorderLevel { get; set; }
         public bool Discontinued { get; set; }
