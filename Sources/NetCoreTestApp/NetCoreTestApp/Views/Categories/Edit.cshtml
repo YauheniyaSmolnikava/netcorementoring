@@ -4,9 +4,9 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Categories</h2>
 
-<h4>Categories</h4>
+<h4>Edit</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,18 +15,13 @@
             <input type="hidden" asp-for="CategoryId" />
             <div class="form-group">
                 <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+                <input asp-for="CategoryName" class="form-control" data-val="true" data-val-required="The Category Name field is required."/>
+                <span data-valmsg-for="CategoryName" data-valmsg-replace="true" class="text-danger field-validation-valid"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Picture" class="control-label"></label>
-                <input asp-for="Picture" class="form-control" />
-                <span asp-validation-for="Picture" class="text-danger"></span>
+                <input asp-for="Description" class="form-control" data-val="true" data-val-length-min="1" data-val-length-max="50" data-val-length="Description need to be between 1 and 50 symbols." />
+                <span data-valmsg-for="Description" class="text-danger field-validation-valid" data-valmsg-replace="true"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -36,7 +31,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-default" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

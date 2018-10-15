@@ -35,3 +35,8 @@ body {
         display: none;
     }
 }
+
+th.action-buttons {
+    width: 18%;
+}
+
