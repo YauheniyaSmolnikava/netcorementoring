@@ -5,12 +5,15 @@
 
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
+<span>Request ID below can be used to find more details in logs</span>
 
 @if (Model.ShowRequestId)
 {
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
+<p>
+    <strong>Time:</strong> <code>@Model.Time</code>
+    <strong>Request ID:</strong> <code>@Model.RequestId</code>
+    <strong>Message: @Model.Message</strong> <span>@Model.Message</span>
+</p>
 }
 
 <h3>Development Mode</h3>

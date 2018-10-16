@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using NetCoreTestApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Diagnostics;
+using System;
 
 namespace NetCoreTestApp
 {
@@ -39,7 +41,7 @@ namespace NetCoreTestApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -54,6 +56,7 @@ namespace NetCoreTestApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseStatusCodePages();
 
             app.UseMvc(routes =>
             {

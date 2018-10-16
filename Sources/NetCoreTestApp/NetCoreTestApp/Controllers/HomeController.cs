@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NetCoreTestApp.Models;
 
 namespace NetCoreTestApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -37,7 +46,16 @@ namespace NetCoreTestApp.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var exceptionFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            var dateTimeNow = DateTime.Now;
+            var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+
+            if (exceptionFeature != null)
+            {
+                _logger.LogError($"[{dateTimeNow}] [{requestId}] Error occured: {exceptionFeature.Error.Message}. Exception path: {exceptionFeature.Path}");
+            }
+
+            return View(new ErrorViewModel { RequestId = requestId, Message = exceptionFeature != null ? exceptionFeature.Error.Message : "Unexpected Error", Time = dateTimeNow });
         }
     }
 }
