@@ -31,7 +31,7 @@ namespace NetCoreTestApp.Controllers
             _topProductsCount = _configuration.GetSection("QueryParams").GetValue<int>("TopProductsCount");
 
             _logger.LogInformation($"Configuration param has been retrived: Top Products Count: {_topProductsCount}");
-            throw new Exception("Count is less then 0");
+
             var products = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
             var selectedProducts = products.Take(_topProductsCount > 0 ? _topProductsCount : products.Count());
             return View(await selectedProducts.ToListAsync());
