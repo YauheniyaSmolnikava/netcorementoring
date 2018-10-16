@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NetCoreTestApp.Models;
 
 namespace NetCoreTestApp.Controllers
@@ -13,17 +14,22 @@ namespace NetCoreTestApp.Controllers
     public class ProductsController : Controller
     {
         private readonly NorthwindContext _context;
-        private readonly int _topProductsCount;
+        private int _topProductsCount;
+        private readonly ILogger<ProductsController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public ProductsController(NorthwindContext context, IConfiguration configuration)
+        public ProductsController(NorthwindContext context, IConfiguration configuration, ILogger<ProductsController> logger)
         {
             _context = context;
-            _topProductsCount = configuration.GetSection("QueryParams").GetValue<int>("TopProductsCount");
+            _logger = logger;
+            _configuration = configuration;
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
+            _topProductsCount = _configuration.GetSection("QueryParams").GetValue<int>("TopProductsCount");
+            _logger.LogInformation($"Configuration param has been retrived: Top Products Count: {_topProductsCount}");
             var products = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
             var selectedProducts = products.Take(_topProductsCount > 0 ? _topProductsCount : products.Count());
             return View(await selectedProducts.ToListAsync());
