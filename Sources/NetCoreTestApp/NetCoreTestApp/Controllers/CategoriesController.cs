@@ -2,23 +2,24 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetCoreTestApp.Interfaces;
 using NetCoreTestApp.Models;
 
 namespace NetCoreTestApp.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly NorthwindContext _context;
+        private readonly ICategoriesRepository _categoriesRepository;
 
-        public CategoriesController(NorthwindContext context)
+        public CategoriesController(ICategoriesRepository categoriesRepository)
         {
-            _context = context;
+            _categoriesRepository = categoriesRepository;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            return View(await _categoriesRepository.GetAll());
         }
 
         // GET: Categories/Details/5
@@ -29,8 +30,8 @@ namespace NetCoreTestApp.Controllers
                 return NotFound();
             }
 
-            var categories = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            var categories = await _categoriesRepository.GetDetails(id.Value);
+
             if (categories == null)
             {
                 return NotFound();
@@ -54,8 +55,7 @@ namespace NetCoreTestApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(categories);
-                await _context.SaveChangesAsync();
+                await _categoriesRepository.Create(categories);
                 return RedirectToAction(nameof(Index));
             }
             return View(categories);
@@ -69,7 +69,7 @@ namespace NetCoreTestApp.Controllers
                 return NotFound();
             }
 
-            var categories = await _context.Categories.FindAsync(id);
+            var categories = await _categoriesRepository.GetById(id.Value);
             if (categories == null)
             {
                 return NotFound();
@@ -93,12 +93,11 @@ namespace NetCoreTestApp.Controllers
             {
                 try
                 {
-                    _context.Update(categories);
-                    await _context.SaveChangesAsync();
+                    await _categoriesRepository.Update(categories);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoriesExists(categories.CategoryId))
+                    if (!_categoriesRepository.CategoriesExists(categories.CategoryId))
                     {
                         return NotFound();
                     }
@@ -120,8 +119,7 @@ namespace NetCoreTestApp.Controllers
                 return NotFound();
             }
 
-            var categories = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            var categories = await _categoriesRepository.GetById(id.Value);
             if (categories == null)
             {
                 return NotFound();
@@ -135,15 +133,8 @@ namespace NetCoreTestApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categories = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(categories);
-            await _context.SaveChangesAsync();
+            await _categoriesRepository.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CategoriesExists(int id)
-        {
-            return _context.Categories.Any(e => e.CategoryId == id);
         }
     }
 }

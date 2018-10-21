@@ -1,41 +1,37 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NetCoreTestApp.Interfaces;
 using NetCoreTestApp.Models;
 
 namespace NetCoreTestApp.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly NorthwindContext _context;
+        private readonly IProductsRepository _productsRepository;
         private int _topProductsCount;
         private readonly ILogger<ProductsController> _logger;
         private readonly IConfiguration _configuration;
 
-        public ProductsController(NorthwindContext context, IConfiguration configuration, ILogger<ProductsController> logger)
+        public ProductsController(IProductsRepository productsRepository, IConfiguration configuration, ILogger<ProductsController> logger)
         {
-            _context = context;
+            _productsRepository = productsRepository;
             _logger = logger;
             _configuration = configuration;
         }
 
-        // GET: Products
         public async Task<IActionResult> Index()
         {
             _topProductsCount = _configuration.GetSection("QueryParams").GetValue<int>("TopProductsCount");
 
             _logger.LogInformation($"Configuration param has been retrived: Top Products Count: {_topProductsCount}");
 
-            var products = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
-            var selectedProducts = products.Take(_topProductsCount > 0 ? _topProductsCount : products.Count());
+            var selectedProducts = _productsRepository.GetProducts(_topProductsCount);
             return View(await selectedProducts.ToListAsync());
         }
 
-        // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,10 +39,8 @@ namespace NetCoreTestApp.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Supplier)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+            var products = await _productsRepository.GetDetails(id.Value);
+
             if (products == null)
             {
                 return NotFound();
@@ -55,11 +49,11 @@ namespace NetCoreTestApp.Controllers
             return View(products);
         }
 
-        // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName");
+            ViewData["CategoryId"] = _productsRepository.GetCategoriesList();
+            ViewData["SupplierId"] = _productsRepository.GetSuppliersList();
+
             return View();
         }
 
@@ -69,16 +63,16 @@ namespace NetCoreTestApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(products);
-                await _context.SaveChangesAsync();
+                await _productsRepository.Create(products);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", products.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName", products.SupplierId);
+
+            ViewData["CategoryId"] = _productsRepository.GetCategoriesList();
+            ViewData["SupplierId"] = _productsRepository.GetSuppliersList();
+
             return View(products);
         }
 
-        // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,19 +80,19 @@ namespace NetCoreTestApp.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products.FindAsync(id);
+            var products = await _productsRepository.GetById(id.Value);
+
             if (products == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", products.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName", products.SupplierId);
+
+            ViewData["CategoryId"] = _productsRepository.GetCategoriesList();
+            ViewData["SupplierId"] = _productsRepository.GetSuppliersList();
+
             return View(products);
         }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,SupplierId,CategoryId,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued")] Products products)
@@ -112,12 +106,11 @@ namespace NetCoreTestApp.Controllers
             {
                 try
                 {
-                    _context.Update(products);
-                    await _context.SaveChangesAsync();
+                    await _productsRepository.Update(products);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductsExists(products.ProductId))
+                    if (!_productsRepository.ProductsExists(products.ProductId))
                     {
                         return NotFound();
                     }
@@ -128,12 +121,12 @@ namespace NetCoreTestApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", products.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName", products.SupplierId);
+            ViewData["CategoryId"] = _productsRepository.GetCategoriesList();
+            ViewData["SupplierId"] = _productsRepository.GetSuppliersList();
+
             return View(products);
         }
 
-        // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,10 +134,8 @@ namespace NetCoreTestApp.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Supplier)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+            var products = await _productsRepository.GetDetails(id.Value);
+
             if (products == null)
             {
                 return NotFound();
@@ -153,20 +144,12 @@ namespace NetCoreTestApp.Controllers
             return View(products);
         }
 
-        // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var products = await _context.Products.FindAsync(id);
-            _context.Products.Remove(products);
-            await _context.SaveChangesAsync();
+            await _productsRepository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProductsExists(int id)
-        {
-            return _context.Products.Any(e => e.ProductId == id);
         }
     }
 }

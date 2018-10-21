@@ -47,6 +47,7 @@ namespace NetCoreTestApp.Models
                 entity.Property(e => e.Description).HasColumnType("ntext");
 
                 entity.Property(e => e.Picture).HasColumnType("image");
+
             });
 
             modelBuilder.Entity<CustomerCustomerDemo>(entity =>

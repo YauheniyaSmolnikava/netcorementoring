@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Diagnostics;
 using System;
+using NetCoreTestApp.Interfaces;
+using NetCoreTestApp.Repositories;
 
 namespace NetCoreTestApp
 {
@@ -38,6 +40,8 @@ namespace NetCoreTestApp
             var connection = Configuration.GetConnectionString("DefaultConnection");
             _logger.LogInformation($"Configuration param has been retrived: DefaultConnection: {connection}");
             services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(connection));
+            services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<ICategoriesRepository, CategoriesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
