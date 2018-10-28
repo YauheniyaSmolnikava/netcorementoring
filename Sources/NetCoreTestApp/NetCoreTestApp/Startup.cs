@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using System;
 using NetCoreTestApp.Interfaces;
 using NetCoreTestApp.Repositories;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace NetCoreTestApp
 {
@@ -64,6 +65,12 @@ namespace NetCoreTestApp
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "images",
+                    template: "images/{id}",
+                    defaults: new { controller = "Categories", action = "GetImage" },
+                    constraints: new { id = new IntRouteConstraint() }
+                );
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
