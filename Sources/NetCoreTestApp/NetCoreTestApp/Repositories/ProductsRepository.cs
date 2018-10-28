@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NetCoreTestApp.Interfaces;
 using NetCoreTestApp.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,10 +50,10 @@ namespace NetCoreTestApp.Repositories
                 .FirstOrDefaultAsync(m => m.ProductId == id);
         }
 
-        public IQueryable<Products> GetProducts(int top)
+        public Task<List<Products>> GetProducts(int top)
         {
             var products = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
-            return products.Take(top > 0 ? top : products.Count());
+            return products.Take(top > 0 ? top : products.Count()).ToListAsync();
         }
 
         public SelectList GetSuppliersList()

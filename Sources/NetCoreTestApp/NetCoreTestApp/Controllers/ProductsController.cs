@@ -29,7 +29,7 @@ namespace NetCoreTestApp.Controllers
             _logger.LogInformation($"Configuration param has been retrived: Top Products Count: {_topProductsCount}");
 
             var selectedProducts = _productsRepository.GetProducts(_topProductsCount);
-            return View(await selectedProducts.ToListAsync());
+            return View(await selectedProducts);
         }
 
         public async Task<IActionResult> Details(int? id)
