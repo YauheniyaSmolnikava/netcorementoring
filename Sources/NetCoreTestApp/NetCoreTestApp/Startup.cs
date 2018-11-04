@@ -7,11 +7,11 @@ using Microsoft.Extensions.DependencyInjection;
 using NetCoreTestApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Diagnostics;
 using System;
 using NetCoreTestApp.Interfaces;
 using NetCoreTestApp.Repositories;
 using Microsoft.AspNetCore.Routing.Constraints;
+using NetCoreTestApp.Middleware;
 
 namespace NetCoreTestApp
 {
@@ -63,6 +63,12 @@ namespace NetCoreTestApp
             app.UseCookiePolicy();
             app.UseStatusCodePages();
 
+            app.UseImagesCache(new ImagesCacheOptions
+            {
+                CacheDirectory = "cache",
+                MaxCachedImagesCount = 5,
+                CahceExpirationTimeInMinutes = TimeSpan.FromMinutes(1),
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

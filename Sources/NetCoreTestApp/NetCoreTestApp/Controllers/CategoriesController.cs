@@ -38,7 +38,7 @@ namespace NetCoreTestApp.Controllers
 
             var image = categories.Picture.Skip(78).ToArray();
 
-            return new FileContentResult(image, "image/bmp");
+            return new FileContentResult(image, (new MediaTypeHeaderValue("image/bmp")).MediaType);
         }
 
         // GET: Categories/Details/5
