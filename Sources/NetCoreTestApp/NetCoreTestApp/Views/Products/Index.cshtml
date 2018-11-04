@@ -4,8 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Products</h2>
+<div>
 
+    @await Component.InvokeAsync("DynamicNavigation", new { entityName = "Products" })
+
+</div>
 <p>
     <a class="btn btn-default" asp-action="Create">Create New</a>
 </p>

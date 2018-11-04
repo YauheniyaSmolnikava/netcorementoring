@@ -6,7 +6,10 @@
 
 <h2>Categories</h2>
 
-<h4>Edit</h4>
+<div>
+    @await Component.InvokeAsync("DynamicNavigation", new { entityName = "Categories", formName = "Edit" })
+</div>
+
 <hr />
 <div class="row">
     <div class="col-md-4">

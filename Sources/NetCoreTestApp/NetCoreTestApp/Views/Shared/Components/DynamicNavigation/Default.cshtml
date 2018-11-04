@@ -1,0 +1,13 @@
+﻿
+@model NetCoreTestApp.ViewComponents.Models.DynamicNavigationModel
+
+@Html.ActionLink("Home", "Index", "Home") > 
+@if (string.IsNullOrEmpty(Model.ActionName))
+{
+    <span>@Model.ControllerName</span>
+}
+else
+{
+    @Html.ActionLink(Model.ControllerName, "Index", Model.ControllerName)
+    <span> > @Model.ActionName</span>
+}

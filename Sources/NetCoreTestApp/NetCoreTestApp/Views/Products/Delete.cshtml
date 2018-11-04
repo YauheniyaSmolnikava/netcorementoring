@@ -4,7 +4,11 @@
     ViewData["Title"] = "Delete";
 }
 
-<h2>Products</h2>
+<div>
+
+    @await Component.InvokeAsync("DynamicNavigation", new { entityName = "Products", formName = "Delete" })
+
+</div>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>

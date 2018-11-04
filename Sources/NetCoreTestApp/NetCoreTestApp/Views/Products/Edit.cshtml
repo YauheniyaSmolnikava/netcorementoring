@@ -4,7 +4,11 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Products</h2>
+<div>
+
+    @await Component.InvokeAsync("DynamicNavigation", new { entityName = "Products", formName = "Edit" })
+
+</div>
 
 <h4>Edit</h4>
 <hr />

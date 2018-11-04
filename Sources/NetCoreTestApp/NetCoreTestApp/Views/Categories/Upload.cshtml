@@ -5,7 +5,9 @@
 
 <h2>Categories</h2>
 
-<h4>Upload</h4>
+<div>
+    @await Component.InvokeAsync("DynamicNavigation", new { entityName = "Categories", formName = "Upload" })
+</div>
 
 <hr />
 <div class="row">

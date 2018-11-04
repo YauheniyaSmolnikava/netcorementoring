@@ -4,8 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Categories</h2>
+<div>
 
+@await Component.InvokeAsync("DynamicNavigation", new { entityName = "Categories" })
+
+</div>
 <p>
     <a class="btn btn-default" asp-action="Create">Create New</a>
 </p>
@@ -27,26 +30,30 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <img src="@Url.Action("GetImage", new { id = item.CategoryId })" width="80" height="80" />
-                <a href="@Url.Action("GetImage", new { id = item.CategoryId })">view</a>
-                <a href="@Url.Action("Upload", new { id = item.CategoryId })">upload</a>
-            </td>
-            <td>
-                <div class="btn-group">
-                    <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
-                    <a class="btn btn-default" asp-action="Details" asp-route-id="@item.CategoryId">Details</a>
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
-                </div>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <img src="@Url.Action("GetImage", new { id = item.CategoryId })" width="80" height="80" />
+                    <a href="@Url.Action("GetImage", new { id = item.CategoryId })">view</a>
+                    <a href="@Url.Action("Upload", new { id = item.CategoryId })">upload</a>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
+                        <a class="btn btn-default" asp-action="Details" asp-route-id="@item.CategoryId">Details</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
+                    </div>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+@section Footer {
+    Categories can not be edited
+}
