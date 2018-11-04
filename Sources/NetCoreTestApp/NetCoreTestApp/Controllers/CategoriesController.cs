@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetCoreTestApp.Filters;
 using NetCoreTestApp.Interfaces;
 using NetCoreTestApp.Models;
 
 namespace NetCoreTestApp.Controllers
 {
+    [TypeFilter(typeof(ActionsLoggingFilter), Arguments = new object[] { false })]
     public class CategoriesController : Controller
     {
         private readonly ICategoriesRepository _categoriesRepository;

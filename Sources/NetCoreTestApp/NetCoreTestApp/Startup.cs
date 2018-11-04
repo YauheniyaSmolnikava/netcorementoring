@@ -12,6 +12,8 @@ using NetCoreTestApp.Interfaces;
 using NetCoreTestApp.Repositories;
 using Microsoft.AspNetCore.Routing.Constraints;
 using NetCoreTestApp.Middleware;
+using NetCoreTestApp.Filters;
+using Microsoft.Extensions.Logging.Debug;
 
 namespace NetCoreTestApp
 {
@@ -37,7 +39,10 @@ namespace NetCoreTestApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options => 
+            {
+                //options.Filters.Add(new ActionsLoggingFilter(_logger, true));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             var connection = Configuration.GetConnectionString("DefaultConnection");
             _logger.LogInformation($"Configuration param has been retrived: DefaultConnection: {connection}");
             services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(connection));
