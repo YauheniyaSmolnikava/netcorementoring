@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<NetCoreTestApp.Models.Categories>
+@using NetCoreTestApp.HtmlHelpers
+
 
 @{
     ViewData["Title"] = "Index";
@@ -6,7 +8,7 @@
 
 <div>
 
-@await Component.InvokeAsync("DynamicNavigation", new { entityName = "Categories" })
+    @await Component.InvokeAsync("DynamicNavigation", new { entityName = "Categories" })
 
 </div>
 <p>
@@ -39,7 +41,8 @@
                 </td>
                 <td>
                     <img src="@Url.Action("GetImage", new { id = item.CategoryId })" width="80" height="80" />
-                    <a href="@Url.Action("GetImage", new { id = item.CategoryId })">view</a>
+                    @*@Html.NorthwindImageLink(item.CategoryId, "view")*@
+                    <a northwind-id="2">view</a>
                     <a href="@Url.Action("Upload", new { id = item.CategoryId })">upload</a>
                 </td>
                 <td>
