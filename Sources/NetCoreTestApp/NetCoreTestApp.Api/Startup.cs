@@ -49,6 +49,8 @@ namespace NetCoreTestApp.Api
             }
 
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
