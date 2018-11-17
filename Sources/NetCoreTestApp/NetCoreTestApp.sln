@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreTestApp.DataAccess",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreTestApp.Api", "NetCoreTestApp.Api\NetCoreTestApp.Api.csproj", "{A30284C6-0DF8-4CAF-B274-8FD8E879DCC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreTestApp.ConsoleClient", "NetCoreTestApp.ConsoleClient\NetCoreTestApp.ConsoleClient.csproj", "{A251A3DF-9855-46BF-80F3-911501945C5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A30284C6-0DF8-4CAF-B274-8FD8E879DCC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A30284C6-0DF8-4CAF-B274-8FD8E879DCC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A30284C6-0DF8-4CAF-B274-8FD8E879DCC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A251A3DF-9855-46BF-80F3-911501945C5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A251A3DF-9855-46BF-80F3-911501945C5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A251A3DF-9855-46BF-80F3-911501945C5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A251A3DF-9855-46BF-80F3-911501945C5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
