@@ -8,12 +8,13 @@ using NetCoreTestApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using NetCoreTestApp.Interfaces;
-using NetCoreTestApp.Repositories;
 using Microsoft.AspNetCore.Routing.Constraints;
 using NetCoreTestApp.Middleware;
 using NetCoreTestApp.Filters;
 using Microsoft.Extensions.Logging.Debug;
+using NetCoreTestApp.DataAccess.Models;
+using NetCoreTestApp.DataAccess.Interfaces;
+using NetCoreTestApp.DataAccess.Repositories;
 
 namespace NetCoreTestApp
 {

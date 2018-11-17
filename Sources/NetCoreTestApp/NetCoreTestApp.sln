@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreTestApp", "NetCoreTestApp\NetCoreTestApp.csproj", "{D5F5028F-05FA-4E69-B2B6-F63DA721154D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreTestApp.Tests", "NetCoreTestApp.Tests\NetCoreTestApp.Tests.csproj", "{F9D570C6-C6AE-4119-9067-997A97ECD50B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreTestApp.Tests", "NetCoreTestApp.Tests\NetCoreTestApp.Tests.csproj", "{F9D570C6-C6AE-4119-9067-997A97ECD50B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreTestApp.DataAccess", "NetCoreTestApp.DataAccess\NetCoreTestApp.DataAccess.csproj", "{1078D469-28B3-411C-ACBA-435251CAB1BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F9D570C6-C6AE-4119-9067-997A97ECD50B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9D570C6-C6AE-4119-9067-997A97ECD50B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9D570C6-C6AE-4119-9067-997A97ECD50B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1078D469-28B3-411C-ACBA-435251CAB1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1078D469-28B3-411C-ACBA-435251CAB1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1078D469-28B3-411C-ACBA-435251CAB1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1078D469-28B3-411C-ACBA-435251CAB1BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

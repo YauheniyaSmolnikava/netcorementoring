@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using NetCoreTestApp.Interfaces;
-using NetCoreTestApp.Models;
+using NetCoreTestApp.DataAccess.Interfaces;
+using NetCoreTestApp.DataAccess.Models;
 
 namespace NetCoreTestApp.Controllers
 {
@@ -51,8 +52,8 @@ namespace NetCoreTestApp.Controllers
 
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = _productsRepository.GetCategoriesList();
-            ViewData["SupplierId"] = _productsRepository.GetSuppliersList();
+            ViewData["CategoryId"] = new SelectList(_productsRepository.GetCategoriesList().Result, "CategoryId", "CategoryName");
+            ViewData["SupplierId"] = new SelectList(_productsRepository.GetSuppliersList().Result, "SupplierId", "CompanyName");
 
             return View();
         }
@@ -121,8 +122,8 @@ namespace NetCoreTestApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = _productsRepository.GetCategoriesList();
-            ViewData["SupplierId"] = _productsRepository.GetSuppliersList();
+            ViewData["CategoryId"] = new SelectList(_productsRepository.GetCategoriesList().Result, "CategoryId", "CategoryName");
+            ViewData["SupplierId"] = new SelectList(_productsRepository.GetSuppliersList().Result, "SupplierId", "CompanyName");
 
             return View(products);
         }

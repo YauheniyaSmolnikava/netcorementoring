@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 using Xunit;
 using Moq;
-using NetCoreTestApp.Models;
-using NetCoreTestApp.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Extensions.Logging;
 using NetCoreTestApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using NetCoreTestApp.DataAccess.Interfaces;
+using NetCoreTestApp.DataAccess.Models;
 
 namespace NetCoreTestApp.Tests
 {

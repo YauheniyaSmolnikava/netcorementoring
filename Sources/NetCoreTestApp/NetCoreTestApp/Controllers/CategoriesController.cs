@@ -4,8 +4,9 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetCoreTestApp.DataAccess.Interfaces;
+using NetCoreTestApp.DataAccess.Models;
 using NetCoreTestApp.Filters;
-using NetCoreTestApp.Interfaces;
 using NetCoreTestApp.Models;
 
 namespace NetCoreTestApp.Controllers

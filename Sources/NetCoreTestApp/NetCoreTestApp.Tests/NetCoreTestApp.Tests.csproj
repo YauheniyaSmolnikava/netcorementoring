@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NetCoreTestApp.DataAccess\NetCoreTestApp.DataAccess.csproj" />
     <ProjectReference Include="..\NetCoreTestApp\NetCoreTestApp.csproj" />
   </ItemGroup>
 

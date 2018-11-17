@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NetCoreTestApp.Controllers;
-using NetCoreTestApp.Interfaces;
-using NetCoreTestApp.Models;
+using NetCoreTestApp.DataAccess.Interfaces;
+using NetCoreTestApp.DataAccess.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
