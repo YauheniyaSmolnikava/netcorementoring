@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-namespace NetCoreTestApp.Models
+namespace NetCoreTestApp.DataAccess.Models
 {
     public class ImageUpload
     {
