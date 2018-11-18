@@ -21,12 +21,21 @@ namespace NetCoreTestApp.Api.Controllers
             _categoriesRepository = categoriesRepository;
         }
 
+        /// <summary>
+        /// This methid allows to get all available catgories
+        /// </summary>
+        /// <returns>list of categories</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Categories>>> Get()
         {
             return await _categoriesRepository.GetAll();
         }
 
+        /// <summary>
+        /// This method allows to get image for the specified category
+        /// </summary>
+        /// <param name="id">identifier of category</param>
+        /// <returns>file content</returns>
         [HttpGet("images/{id}")]
         public async Task<IActionResult> GetImage(int id)
         {
@@ -40,7 +49,12 @@ namespace NetCoreTestApp.Api.Controllers
             }
             return NotFound();
         }
-
+        
+        /// <summary>
+        /// This method allows to update image for the specified category
+        /// </summary>
+        /// <param name="image">image object</param>
+        /// <returns>code of executed operation</returns>
         [HttpPost("images/{id}")]
         public async Task<IActionResult> Upload(ImageUpload image)
         {
