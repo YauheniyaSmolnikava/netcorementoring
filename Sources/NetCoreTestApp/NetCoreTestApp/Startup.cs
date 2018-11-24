@@ -14,6 +14,9 @@ using NetCoreTestApp.DataAccess.Interfaces;
 using NetCoreTestApp.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using NetCoreTestApp.Areas.Identity.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using NetCoreTestApp.Extensions;
 
 namespace NetCoreTestApp
 {
@@ -38,6 +41,10 @@ namespace NetCoreTestApp
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            services.AddAuthentication()
+            .AddAzureAd(options => Configuration.Bind("AzureAd", options))
+            .AddCookie();
 
             services.AddMvc(options => 
             {
