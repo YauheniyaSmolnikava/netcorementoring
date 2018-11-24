@@ -4,17 +4,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetCoreTestApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using Microsoft.AspNetCore.Routing.Constraints;
 using NetCoreTestApp.Middleware;
-using NetCoreTestApp.Filters;
-using Microsoft.Extensions.Logging.Debug;
 using NetCoreTestApp.DataAccess.Models;
 using NetCoreTestApp.DataAccess.Interfaces;
 using NetCoreTestApp.DataAccess.Repositories;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using NetCoreTestApp.Areas.Identity.Services;
 
 namespace NetCoreTestApp
 {
@@ -49,6 +48,9 @@ namespace NetCoreTestApp
             services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(connection));
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +77,7 @@ namespace NetCoreTestApp
                 MaxCachedImagesCount = 5,
                 CahceExpirationTimeInMinutes = TimeSpan.FromMinutes(1),
             });
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
