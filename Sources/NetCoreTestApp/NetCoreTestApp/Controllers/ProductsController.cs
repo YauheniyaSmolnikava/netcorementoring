@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using NetCoreTestApp.DataAccess.Models;
 
 namespace NetCoreTestApp.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly IProductsRepository _productsRepository;

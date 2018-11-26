@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetCoreTestApp.DataAccess.Interfaces;
@@ -11,6 +12,7 @@ using NetCoreTestApp.Models;
 
 namespace NetCoreTestApp.Controllers
 {
+    [Authorize]
     [TypeFilter(typeof(ActionsLoggingFilter), Arguments = new object[] { false })]
     public class CategoriesController : Controller
     {

@@ -14,8 +14,6 @@ using NetCoreTestApp.DataAccess.Interfaces;
 using NetCoreTestApp.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using NetCoreTestApp.Areas.Identity.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using NetCoreTestApp.Extensions;
 
 namespace NetCoreTestApp
@@ -46,7 +44,9 @@ namespace NetCoreTestApp
             .AddAzureAd(options => Configuration.Bind("AzureAd", options))
             .AddCookie();
 
-            services.AddMvc(options => 
+            services.AddAuthorization();
+
+            services.AddMvc(options =>
             {
                 //options.Filters.Add(new ActionsLoggingFilter(_logger, true));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
