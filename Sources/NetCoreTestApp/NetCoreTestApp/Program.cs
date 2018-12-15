@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 
@@ -37,6 +38,11 @@ namespace NetCoreTestApp
                     logging.AddDebug();
                     logging.SetMinimumLevel(LogLevel.Information);
                 })
+                .UseConfiguration(new ConfigurationBuilder()
+                 .SetBasePath(Directory.GetCurrentDirectory())
+                 .AddJsonFile("hosting.json", optional: true)
+                 .Build())
+                .UseKestrel()
                 .UseNLog()
                 .UseStartup<Startup>();
     }

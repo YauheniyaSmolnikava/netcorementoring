@@ -15,6 +15,7 @@ using NetCoreTestApp.DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using NetCoreTestApp.Areas.Identity.Services;
 using NetCoreTestApp.Extensions;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace NetCoreTestApp
 {
@@ -85,6 +86,11 @@ namespace NetCoreTestApp
                 CahceExpirationTimeInMinutes = TimeSpan.FromMinutes(1),
             });
             app.UseAuthentication();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
